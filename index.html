@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17658555212"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-17658555212');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIO | Mantenimiento Industrial de UPS y Potencia</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Roboto:wght@400;500;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -25,6 +36,7 @@
             }
         }
     </script>
+    
     <style>
         html { scroll-behavior: smooth; }
         .industrial-grid {
@@ -458,6 +470,10 @@
                 if (response.ok) {
                     showSuccess();
                     form.reset();
+                    // Opcional: Reportar a Google Ads que se llenó el formulario
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'conversion', {'event_category': 'formulario', 'event_label': 'emergencia'});
+                    }
                 } else {
                     showError();
                 }
@@ -480,6 +496,24 @@
         function showError() {
             document.getElementById('errorModal').classList.remove('hidden');
         }
+
+        // --- TRACKING AUTOMÁTICO DE WHATSAPP PARA GOOGLE ADS ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Encuentra todos los enlaces de la página que lleven a WhatsApp
+            const waLinks = document.querySelectorAll('a[href^="https://wa.me"]');
+            waLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Le avisa a Google Ads que alguien hizo clic en el WhatsApp
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'click_whatsapp', {
+                            'event_category': 'contacto',
+                            'event_label': 'boton_whatsapp'
+                        });
+                        console.log("Clic de WhatsApp registrado en Google Ads");
+                    }
+                });
+            });
+        });
     </script>
 
 </body>
